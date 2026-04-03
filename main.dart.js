@@ -85145,7 +85145,7 @@ s=q}for(;;)switch(s){case 0:o.ao(new A.amo(o))
 n=A.ff("https://tttn-1-ujfk.onrender.com/api/login")
 q=3
 j=t.N
-i=A.ay(["Content-Type","application/json"],j,j)
+i=A.ay(["Content-Type","application/json","Accept","application/json","Access-Control-Allow-Origin","*"],j,j)
 s=6
 return A.a_(A.aD6(n,B.bi.yG(A.ay(["email",o.d.a.a,"password",o.e.a.a],j,j),null),i),$async$zs)
 case 6:m=b
