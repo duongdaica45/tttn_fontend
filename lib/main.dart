@@ -47,7 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final response = await http.post(
         url,
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json", // Thêm dòng này
+          "Access-Control-Allow-Origin":
+              "*", // Đôi khi giúp trình duyệt "yên tâm" hơn
+        },
         body: jsonEncode({
           "email": emailController.text,
           "password": passwordController.text,
