@@ -49,9 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
         url,
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json", // Thêm dòng này
-          "Access-Control-Allow-Origin":
-              "*", // Đôi khi giúp trình duyệt "yên tâm" hơn
+          "Accept": "application/json", // Thêm dòng này            // Đôi khi giúp trình duyệt "yên tâm" hơn
         },
         body: jsonEncode({
           "email": emailController.text,
