@@ -53,7 +53,7 @@ class _NhanVienScreenState extends State<NhanVienScreen> {
 
   //Xóa
   Future<void> deleteNhanVien(int id) async {
-    final url = Uri.parse("http://192.168.76.1:8000/api/nhanvien/$id");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/nhanvien/$id");
 
     try {
       final response = await http.delete(url);

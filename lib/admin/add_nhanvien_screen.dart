@@ -19,7 +19,7 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
   String chucVu = "Full";
 
   Future<void> addNhanVien() async {
-    final url = Uri.parse("http://192.168.76.1:8000/api/nhanvien");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/nhanvien");
     if (!RegExp(r'^[a-zA-ZÀ-ỹ\s]+$').hasMatch(tenController.text)) {
       ScaffoldMessenger.of(
         context,
