@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'admin_listNhanVien.dart';
-
+import 'admin_date.dart';
+import 'admin_duyetdon.dart';
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
 
@@ -20,7 +21,7 @@ class HomePage extends StatelessWidget {
         child: ListView(
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Color.fromRGBO(233, 30, 99, 1)),
               child: Text(
                 "Menu",
                 style: TextStyle(color: Colors.white, fontSize: 20),
@@ -36,7 +37,7 @@ class HomePage extends StatelessWidget {
               },
             ),        
             ListTile(
-              title: Text("Trang 1"),
+              title: Text("Quản lý nhân viên"),
               onTap: () {
                 Navigator.push(
                   context,
@@ -44,24 +45,24 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
-            // ListTile(
-            //   title: Text("Trang 2"),
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => Bai2Page(title: "",)),
-            //     );
-            //   },
-            // ),
-            // ListTile(
-            //   title: Text("Trang 3"),
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => Lab5_3_DatHang(title: "",)),
-            //     );
-            //   },
-            //),
+            ListTile(
+              title: Text("Quản lý ngày làm"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Quanlyngay()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text("Duyệt đơn xin nghỉ"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DuyetDon()),
+                );
+              },
+            ),
           ],
         ),
       ),

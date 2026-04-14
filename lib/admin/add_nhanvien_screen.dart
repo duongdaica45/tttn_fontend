@@ -17,23 +17,16 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
   final TextEditingController luongController = TextEditingController();
 
   String chucVu = "Full";
+  bool isLoading = false;
 
   Future<void> addNhanVien() async {
-    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/nhanvien");
-    if (!RegExp(r'^[a-zA-ZÀ-ỹ\s]+$').hasMatch(tenController.text)) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Tên chỉ được chứa chữ")));
+    if (tenController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty || luongController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Vui lòng nhập đầy đủ thông tin"), backgroundColor: Colors.orange));
       return;
     }
 
-    // 🔥 Validate lương
-    if (!RegExp(r'^[0-9]+$').hasMatch(luongController.text)) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Lương chỉ được chứa số")));
-      return;
-    }
+    setState(() => isLoading = true);
+    final url = Uri.parse("http://127.0.0.1:8000/api/nhanvien");
 
     try {
       final response = await http.post(
@@ -51,82 +44,161 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 201) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("Thêm thành công")));
-
-        Navigator.pop(context); // quay lại màn danh sách
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Thêm thành công"), backgroundColor: Colors.pink));
+          Navigator.pop(context);
+        }
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(data['message'] ?? "Lỗi")));
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? "Lỗi")));
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Lỗi kết nối server")));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Lỗi kết nối server")));
+    } finally {
+      if (mounted) setState(() => isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Thêm nhân viên")),
-      body: Padding(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("Thêm Nhân Viên", style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.pink,
+        foregroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TextField(
-                controller: tenController,
-                decoration: const InputDecoration(labelText: "Tên"),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZÀ-ỹ\s]')),
+        child: Column(
+          children: [
+            // Biểu tượng trang trí phía trên
+            const CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.pink,
+              child: Icon(Icons.person_add_alt_1, size: 40, color: Colors.white),
+            ),
+            const SizedBox(height: 30),
+
+            // Card chứa các trường nhập liệu
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.pink.withOpacity(0.1),
+                    blurRadius: 20,
+                    spreadRadius: 5,
+                  )
                 ],
               ),
+              child: Column(
+                children: [
+                  _buildTextField(
+                    controller: tenController,
+                    label: "Tên nhân viên",
+                    icon: Icons.person_outline,
+                    formatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZÀ-ỹ\s]'))],
+                  ),
+                  const SizedBox(height: 15),
+                  _buildTextField(
+                    controller: emailController,
+                    label: "Email",
+                    icon: Icons.email_outlined,
+                  ),
+                  const SizedBox(height: 15),
+                  _buildTextField(
+                    controller: passwordController,
+                    label: "Mật khẩu",
+                    icon: Icons.lock_outline,
+                    isPassword: true,
+                  ),
+                  const SizedBox(height: 15),
+                  _buildTextField(
+                    controller: luongController,
+                    label: "Lương cơ bản",
+                    icon: Icons.monetization_on_outlined,
+                    type: TextInputType.number,
+                    formatters: [FilteringTextInputFormatter.digitsOnly],
+                  ),
+                  const SizedBox(height: 15),
+                  
+                  // Dropdown chọn chức vụ trang trí hồng
+                  DropdownButtonFormField<String>(
+                    value: chucVu,
+                    decoration: InputDecoration(
+                      labelText: "Chức vụ",
+                      labelStyle: const TextStyle(color: Colors.pink),
+                      prefixIcon: const Icon(Icons.badge_outlined, color: Colors.pink),
+                      filled: true,
+                      fillColor: Colors.pink.withOpacity(0.05),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+                    ),
+                    items: ["Full", "Part", "Manager"]
+                        .map((role) => DropdownMenuItem(value: role, child: Text(role)))
+                        .toList(),
+                    onChanged: (value) => setState(() => chucVu = value!),
+                  ),
+                ],
+              ),
+            ),
 
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: "Email"),
-              ),
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(labelText: "Password"),
-                obscureText: true,
-              ),
-              TextField(
-                controller: luongController,
-                decoration: const InputDecoration(labelText: "Lương"),
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              ),
-              const SizedBox(height: 15),
+            const SizedBox(height: 40),
 
-              // 🔥 Dropdown chọn chức vụ
-              DropdownButtonFormField<String>(
-                value: chucVu,
-                items: ["Full", "Part", "Manager"]
-                    .map(
-                      (role) =>
-                          DropdownMenuItem(value: role, child: Text(role)),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    chucVu = value!;
-                  });
-                },
-                decoration: const InputDecoration(labelText: "Chức vụ"),
+            // Nút Thêm
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+                onPressed: isLoading ? null : addNhanVien,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pink,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  elevation: 5,
+                  shadowColor: Colors.pink.withOpacity(0.5),
+                ),
+                child: isLoading 
+                  ? const CircularProgressIndicator(color: Colors.white) 
+                  : const Text("THÊM MỚI NHÂN VIÊN", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-              const SizedBox(height: 20),
-
-              ElevatedButton(
-                onPressed: addNhanVien,
-                child: const Text("Thêm nhân viên"),
-              ),
-            ],
-          ),
+  // Widget dùng chung cho TextField
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    bool isPassword = false,
+    TextInputType type = TextInputType.text,
+    List<TextInputFormatter>? formatters,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: isPassword,
+      keyboardType: type,
+      inputFormatters: formatters,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.pink),
+        prefixIcon: Icon(icon, color: Colors.pink),
+        filled: true,
+        fillColor: Colors.pink.withOpacity(0.05),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: Colors.pink, width: 1),
         ),
       ),
     );
