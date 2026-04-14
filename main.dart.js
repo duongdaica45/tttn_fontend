@@ -91036,7 +91036,7 @@ s=p}for(;;)switch(s){case 0:e=m.d
 if(e.a.a.length===0||m.f.a.a.length===0){m.yQ("Vui l\xf2ng nh\u1eadp \u0111\u1ee7 th\xf4ng tin",B.fI)
 s=1
 break}m.O(new A.avD(m))
-l=A.co("hhttps://tttn-1-ujfk.onrender.com/api/lich-lam")
+l=A.co(u.b)
 p=4
 i=t.N
 h=A.ah(["Content-Type","application/json"],i,i)
