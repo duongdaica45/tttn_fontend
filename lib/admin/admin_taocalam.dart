@@ -84,7 +84,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
     }
 
     setState(() => isLoading = true);
-    final url = Uri.parse("hhttps://tttn-1-ujfk.onrender.com/api/lich-lam");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/lich-lam");
     try {
       final response = await http.post(
         url,
