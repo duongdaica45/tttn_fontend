@@ -26,7 +26,7 @@ class _NhanVienNgayMoState extends State<NhanVienNgayMo> {
   }
 
   Future<void> fetchLichLam() async {
-    final url = Uri.parse("http://localhost:8000/api/lich-lam");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/lich-lam");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

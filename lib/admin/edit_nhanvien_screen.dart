@@ -42,7 +42,7 @@ class _EditNhanVienScreenState extends State<EditNhanVienScreen> {
 
     setState(() => isLoading = true);
     final id = widget.nhanVien['id'];
-    final url = Uri.parse("http://127.0.0.1:8000/api/nhanvien/$id");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/nhanvien/$id");
 
     try {
       final response = await http.put(

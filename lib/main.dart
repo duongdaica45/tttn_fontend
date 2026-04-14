@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> login() async {
     setState(() => isLoading = true);
 
-    final url = Uri.parse("http://127.0.0.1:8000/api/login");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/login");
     try {
       final response = await http.post(
         url,

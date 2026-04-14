@@ -20,14 +20,23 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
   bool isLoading = false;
 
   Future<void> addNhanVien() async {
-    if (tenController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty || luongController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Vui lòng nhập đầy đủ thông tin"), backgroundColor: Colors.orange));
+    if (tenController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        luongController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Vui lòng nhập đầy đủ thông tin"),
+          backgroundColor: Colors.orange,
+        ),
+      );
       return;
     }
 
     setState(() => isLoading = true);
-    final url = Uri.parse("http://127.0.0.1:8000/api/nhanvien");
 
+    //final url = Uri.parse("http://127.0.0.1:8000/api/nhanvien");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/nhanvien");
     try {
       final response = await http.post(
         url,
@@ -45,14 +54,25 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
 
       if (response.statusCode == 201) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Thêm thành công"), backgroundColor: Colors.pink));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Thêm thành công"),
+              backgroundColor: Colors.pink,
+            ),
+          );
           Navigator.pop(context);
         }
       } else {
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? "Lỗi")));
+        if (mounted)
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(data['message'] ?? "Lỗi")));
       }
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Lỗi kết nối server")));
+      if (mounted)
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Lỗi kết nối server")));
     } finally {
       if (mounted) setState(() => isLoading = false);
     }
@@ -63,7 +83,10 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Thêm Nhân Viên", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          "Thêm Nhân Viên",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.pink,
         foregroundColor: Colors.white,
         centerTitle: true,
@@ -77,7 +100,11 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
             const CircleAvatar(
               radius: 40,
               backgroundColor: Colors.pink,
-              child: Icon(Icons.person_add_alt_1, size: 40, color: Colors.white),
+              child: Icon(
+                Icons.person_add_alt_1,
+                size: 40,
+                color: Colors.white,
+              ),
             ),
             const SizedBox(height: 30),
 
@@ -92,7 +119,7 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
                     color: Colors.pink.withOpacity(0.1),
                     blurRadius: 20,
                     spreadRadius: 5,
-                  )
+                  ),
                 ],
               ),
               child: Column(
@@ -101,7 +128,11 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
                     controller: tenController,
                     label: "Tên nhân viên",
                     icon: Icons.person_outline,
-                    formatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZÀ-ỹ\s]'))],
+                    formatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'[a-zA-ZÀ-ỹ\s]'),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 15),
                   _buildTextField(
@@ -125,20 +156,29 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
                     formatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                   const SizedBox(height: 15),
-                  
+
                   // Dropdown chọn chức vụ trang trí hồng
                   DropdownButtonFormField<String>(
                     value: chucVu,
                     decoration: InputDecoration(
                       labelText: "Chức vụ",
                       labelStyle: const TextStyle(color: Colors.pink),
-                      prefixIcon: const Icon(Icons.badge_outlined, color: Colors.pink),
+                      prefixIcon: const Icon(
+                        Icons.badge_outlined,
+                        color: Colors.pink,
+                      ),
                       filled: true,
                       fillColor: Colors.pink.withOpacity(0.05),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
                     items: ["Full", "Part", "Manager"]
-                        .map((role) => DropdownMenuItem(value: role, child: Text(role)))
+                        .map(
+                          (role) =>
+                              DropdownMenuItem(value: role, child: Text(role)),
+                        )
                         .toList(),
                     onChanged: (value) => setState(() => chucVu = value!),
                   ),
@@ -157,13 +197,21 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pink,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   elevation: 5,
                   shadowColor: Colors.pink.withOpacity(0.5),
                 ),
-                child: isLoading 
-                  ? const CircularProgressIndicator(color: Colors.white) 
-                  : const Text("THÊM MỚI NHÂN VIÊN", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                child: isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text(
+                        "THÊM MỚI NHÂN VIÊN",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
             ),
           ],

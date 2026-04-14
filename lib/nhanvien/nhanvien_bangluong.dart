@@ -32,7 +32,7 @@ class _BangLuongPageState extends State<BangLuongPage> {
   TextEditingController namController = TextEditingController();
   bool isLoading = false;
   List data = [];
-  final String baseUrl = "http://127.0.0.1:8000/api";
+  final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
 
   Future<void> loadData() async {
     setState(() => isLoading = true);

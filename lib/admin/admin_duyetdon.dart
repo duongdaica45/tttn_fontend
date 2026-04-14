@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchDon() async {
-    final url = Uri.parse("http://127.0.0.1:8000/api/don-cho-duyet");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/don-cho-duyet");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

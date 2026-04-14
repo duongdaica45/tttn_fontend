@@ -20,7 +20,7 @@ class _ChiTietDuyetDonScreenState extends State<ChiTietDuyetDonScreen> {
     setState(() => isLoading = true);
 
     try {
-      final url = Uri.parse("http://127.0.0.1:8000/api/duyet-don-xin-nghi");
+      final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/duyet-don-xin-nghi");
       final response = await http.post(
         url,
         headers: {

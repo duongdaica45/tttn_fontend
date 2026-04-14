@@ -31,7 +31,7 @@ class _DonxinnghiState extends State<Donxinnghi> {
 
   // Giữ nguyên các hàm Logic API của bạn
   Future<void> huyDon(int id) async {
-    final url = Uri.parse("http://127.0.0.1:8000/api/huy-don-xin-nghi");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/huy-don-xin-nghi");
 
     try {
       final response = await http.post(
@@ -66,7 +66,7 @@ class _DonxinnghiState extends State<Donxinnghi> {
 
   Future<void> fetchDon() async {
     final url = Uri.parse(
-      "http://127.0.0.1:8000/api/don-xin-nghi/${widget.user['id']}",
+      "https://tttn-1-ujfk.onrender.com/api/don-xin-nghi/${widget.user['id']}",
     );
 
     try {
@@ -103,7 +103,7 @@ class _DonxinnghiState extends State<Donxinnghi> {
 
     setState(() => isLoading = true);
 
-    final url = Uri.parse("http://127.0.0.1:8000/api/don-xin-nghi");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/don-xin-nghi");
 
     try {
       final response = await http.post(

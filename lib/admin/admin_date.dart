@@ -13,7 +13,7 @@ class Quanlyngay extends StatefulWidget {
 class _QuanLyNgay extends State<Quanlyngay> {
   List<dynamic> danhSachNgay = [];
   bool isLoading = true; // Thêm biến để quản lý trạng thái tải dữ liệu
-  final String baseUrl = "http://localhost:8000/api";
+  final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
 
   @override
   void initState() {

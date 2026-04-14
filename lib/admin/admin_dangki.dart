@@ -25,7 +25,7 @@ class _DanhSachNhanVienFullScreenState
   }
 
   Future<void> fetchNhanVien() async {
-    final url = Uri.parse("http://localhost:8000/api/nhan-vien-full");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/nhan-vien-full");
 
     try {
       final response = await http.get(url);

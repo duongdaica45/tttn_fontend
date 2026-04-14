@@ -35,7 +35,7 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
 
   Future<void> loadTrangThai() async {
     final url = Uri.parse(
-      "http://localhost:8000/api/check-dang-ky"
+      "https://tttn-1-ujfk.onrender.com/api/check-dang-ky"
       "?nhanvien_id=${widget.nhanVien['id']}"
       "&lich_lam_id=${widget.lichLam['id']}",
     );
@@ -58,7 +58,7 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
   Future<void> handleAction(String type) async {
     setState(() => isLoading = true);
     final endpoint = type == "dangky" ? "dang-ky-ca" : "huy-dang-ky-ca";
-    final url = Uri.parse("http://localhost:8000/api/$endpoint");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/$endpoint");
 
     try {
       final response = await http.post(

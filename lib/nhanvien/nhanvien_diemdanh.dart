@@ -15,7 +15,7 @@ class _DiemdanhState extends State<Diemdanh> {
   String message = "";
   bool isLoading = false;
 
-  final String baseUrl = "http://127.0.0.1:8000/api";
+  final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
   final Color primaryPink = Colors.pink;
   final Color softPink = const Color(0xFFFCE4EC);
 

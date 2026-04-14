@@ -19,7 +19,7 @@ class _DangKyCaScreenState extends State<DangKyCaScreen> {
   bool isLoadingTrangThai = true;
   Future<void> loadTrangThai() async {
     final url = Uri.parse(
-      "http://localhost:8000/api/check-dang-ky"
+      "https://tttn-1-ujfk.onrender.com/api/check-dang-ky"
       "?nhanvien_id=${widget.user['id']}"
       "&lich_lam_id=${widget.lichLam['id']}",
     );
@@ -44,7 +44,9 @@ class _DangKyCaScreenState extends State<DangKyCaScreen> {
   Future<void> dangKyCa() async {
     setState(() => isLoading = true);
 
-    final url = Uri.parse("http://127.0.0.1:8000/api/dang-ky-ca-part");
+    final url = Uri.parse(
+      "https://tttn-1-ujfk.onrender.com/api/dang-ky-ca-part",
+    );
     // ⚠️ Android emulator dùng 10.0.2.2
 
     try {
@@ -86,7 +88,9 @@ class _DangKyCaScreenState extends State<DangKyCaScreen> {
   Future<void> huyDangKyCa() async {
     setState(() => isLoading = true);
 
-    final url = Uri.parse("http://localhost:8000/api/huy-dang-ky-ca");
+    final url = Uri.parse(
+      "https://tttn-1-ujfk.onrender.com/api/huy-dang-ky-ca",
+    );
 
     try {
       final response = await http.post(

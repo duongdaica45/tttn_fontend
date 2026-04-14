@@ -22,7 +22,7 @@ class _NhanVienScreenState extends State<NhanVienScreen> {
   }
 
   Future<void> fetchNhanVien() async {
-    final url = Uri.parse("http://127.0.0.1:8000/api/nhanvien");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/nhanvien");
     try {
       final response = await http.get(url);
       final data = jsonDecode(response.body);
@@ -44,7 +44,7 @@ class _NhanVienScreenState extends State<NhanVienScreen> {
   }
 
   Future<void> deleteNhanVien(int id) async {
-    final url = Uri.parse("http://127.0.0.1:8000/api/nhanvien/$id");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/nhanvien/$id");
     try {
       final response = await http.delete(url);
       final data = jsonDecode(response.body);

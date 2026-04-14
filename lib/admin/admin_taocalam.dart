@@ -34,7 +34,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
   // --- API LOGIC (Giữ nguyên logic của bạn, chỉ thêm loading states) ---
   Future<void> deleteLichLam(int id) async {
     final response = await http.delete(
-      Uri.parse("http://127.0.0.1:8000/api/lich-lam/$id"),
+      Uri.parse("https://tttn-1-ujfk.onrender.com/api/lich-lam/$id"),
       headers: {"Accept": "application/json"},
     );
 
@@ -46,7 +46,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
   }
 
   Future<void> loadLichLam() async {
-    final url = Uri.parse("http://localhost:8000/api/lich-lam");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/lich-lam");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -61,7 +61,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
   }
 
   Future<void> loadNgayMo() async {
-    final url = Uri.parse("http://localhost:8000/api/ngay-mo");
+    final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/ngay-mo");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -84,7 +84,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
     }
 
     setState(() => isLoading = true);
-    final url = Uri.parse("http://localhost:8000/api/lich-lam");
+    final url = Uri.parse("hhttps://tttn-1-ujfk.onrender.com/api/lich-lam");
     try {
       final response = await http.post(
         url,
