@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFDFBFC), // Trắng hồng cực nhẹ
+      backgroundColor: const Color(0xFFFDFBFC),
       appBar: AppBar(
         title: const Text(
           "Duyệt Đơn Xin Nghỉ",
@@ -92,37 +92,59 @@ class _HomePageState extends State<HomePage> {
           IconButton(onPressed: fetchDon, icon: const Icon(Icons.refresh)),
         ],
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.pink))
-          : donList.isEmpty
-          ? _buildEmptyState()
-          : ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              itemCount: donList.length,
-              itemBuilder: (context, index) {
-                final item = donList[index];
-                return _buildDonCard(item);
-              },
-            ),
+      // Sử dụng RefreshIndicator bao bọc toàn bộ body
+      body: RefreshIndicator(
+        color: Colors.pink,
+        onRefresh: () async {
+          await fetchDon(); // Đảm bảo fetchDon() trả về Future
+        },
+        child: isLoading
+            ? const Center(child: CircularProgressIndicator(color: Colors.pink))
+            : donList.isEmpty
+            ? _buildEmptyState()
+            : ListView.builder(
+                // physics đảm bảo danh sách luôn có thể kéo dù ít item
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                itemCount: donList.length,
+                itemBuilder: (context, index) {
+                  final item = donList[index];
+                  return _buildDonCard(item);
+                },
+              ),
+      ),
     );
   }
 
   Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.auto_awesome_motion,
-            size: 80,
-            color: Colors.pink.withOpacity(0.2),
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            "Hiện không có đơn nào cần duyệt",
-            style: TextStyle(color: Colors.grey, fontSize: 16),
-          ),
-        ],
+    // Để vuốt được khi trống, ta bọc trong SingleChildScrollView có physics
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Container(
+        height:
+            MediaQuery.of(context).size.height *
+            0.7, // Chiều cao vừa đủ để hiển thị giữa màn hình
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.auto_awesome_motion,
+              size: 80,
+              color: Colors.pink.withOpacity(0.2),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              "Hiện không có đơn nào cần duyệt",
+              style: TextStyle(color: Colors.grey, fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              "Vuốt xuống để tải lại",
+              style: TextStyle(color: Colors.pink, fontSize: 12),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -92,129 +92,149 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            // Biểu tượng trang trí phía trên
-            const CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.pink,
-              child: Icon(
-                Icons.person_add_alt_1,
-                size: 40,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 30),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // 🔥 reset toàn bộ form
+          setState(() {
+            tenController.clear();
+            emailController.clear();
+            passwordController.clear();
+            luongController.clear();
 
-            // Card chứa các trường nhập liệu
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.pink.withOpacity(0.1),
-                    blurRadius: 20,
-                    spreadRadius: 5,
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  _buildTextField(
-                    controller: tenController,
-                    label: "Tên nhân viên",
-                    icon: Icons.person_outline,
-                    formatters: [
-                      FilteringTextInputFormatter.allow(
-                        RegExp(r'[a-zA-ZÀ-ỹ\s]'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  _buildTextField(
-                    controller: emailController,
-                    label: "Email",
-                    icon: Icons.email_outlined,
-                  ),
-                  const SizedBox(height: 15),
-                  _buildTextField(
-                    controller: passwordController,
-                    label: "Mật khẩu",
-                    icon: Icons.lock_outline,
-                    isPassword: true,
-                  ),
-                  const SizedBox(height: 15),
-                  _buildTextField(
-                    controller: luongController,
-                    label: "Lương cơ bản",
-                    icon: Icons.monetization_on_outlined,
-                    type: TextInputType.number,
-                    formatters: [FilteringTextInputFormatter.digitsOnly],
-                  ),
-                  const SizedBox(height: 15),
+            chucVu = "Full"; // hoặc giá trị mặc định của bạn
+          });
 
-                  // Dropdown chọn chức vụ trang trí hồng
-                  DropdownButtonFormField<String>(
-                    value: chucVu,
-                    decoration: InputDecoration(
-                      labelText: "Chức vụ",
-                      labelStyle: const TextStyle(color: Colors.pink),
-                      prefixIcon: const Icon(
-                        Icons.badge_outlined,
-                        color: Colors.pink,
-                      ),
-                      filled: true,
-                      fillColor: Colors.pink.withOpacity(0.05),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    items: ["Full", "Part", "Manager"]
-                        .map(
-                          (role) =>
-                              DropdownMenuItem(value: role, child: Text(role)),
-                        )
-                        .toList(),
-                    onChanged: (value) => setState(() => chucVu = value!),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 40),
-
-            // Nút Thêm
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: isLoading ? null : addNhanVien,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pink,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  elevation: 5,
-                  shadowColor: Colors.pink.withOpacity(0.5),
+          await Future.delayed(Duration(milliseconds: 500)); // hiệu ứng mượt
+        },
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(), // 🔥 bắt buộc
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              // Biểu tượng trang trí phía trên
+              const CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.pink,
+                child: Icon(
+                  Icons.person_add_alt_1,
+                  size: 40,
+                  color: Colors.white,
                 ),
-                child: isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text(
-                        "THÊM MỚI NHÂN VIÊN",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+              ),
+              const SizedBox(height: 30),
+
+              // Card chứa form
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.pink.withOpacity(0.1),
+                      blurRadius: 20,
+                      spreadRadius: 5,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    _buildTextField(
+                      controller: tenController,
+                      label: "Tên nhân viên",
+                      icon: Icons.person_outline,
+                      formatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-ZÀ-ỹ\s]'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+
+                    _buildTextField(
+                      controller: emailController,
+                      label: "Email",
+                      icon: Icons.email_outlined,
+                    ),
+                    const SizedBox(height: 15),
+
+                    _buildTextField(
+                      controller: passwordController,
+                      label: "Mật khẩu",
+                      icon: Icons.lock_outline,
+                      isPassword: true,
+                    ),
+                    const SizedBox(height: 15),
+
+                    _buildTextField(
+                      controller: luongController,
+                      label: "Lương cơ bản",
+                      icon: Icons.monetization_on_outlined,
+                      type: TextInputType.number,
+                      formatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
+                    const SizedBox(height: 15),
+
+                    DropdownButtonFormField<String>(
+                      value: chucVu,
+                      decoration: InputDecoration(
+                        labelText: "Chức vụ",
+                        labelStyle: const TextStyle(color: Colors.pink),
+                        prefixIcon: const Icon(
+                          Icons.badge_outlined,
+                          color: Colors.pink,
+                        ),
+                        filled: true,
+                        fillColor: Colors.pink.withOpacity(0.05),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none,
                         ),
                       ),
+                      items: ["Full", "Part", "Manager"]
+                          .map(
+                            (role) => DropdownMenuItem(
+                              value: role,
+                              child: Text(role),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) => setState(() => chucVu = value!),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 40),
+
+              // Nút thêm
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  onPressed: isLoading ? null : addNhanVien,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    elevation: 5,
+                    shadowColor: Colors.pink.withOpacity(0.5),
+                  ),
+                  child: isLoading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text(
+                          "THÊM MỚI NHÂN VIÊN",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

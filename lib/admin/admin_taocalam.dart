@@ -84,7 +84,9 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
     }
 
     setState(() => isLoading = true);
+
     final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/lich-lam");
+
     try {
       final response = await http.post(
         url,
@@ -98,9 +100,19 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
 
       if (response.statusCode == 201) {
         _showSnackBar("✅ Tạo ca thành công", Colors.pink);
-        ngayController.clear();
-        maxNhanVienController.clear();
-        loadLichLam();
+
+        // 🔥 RESET TOÀN BỘ TRANG
+        setState(() {
+          ngayController.clear();
+          maxNhanVienController.clear();
+          selectedCaLam = 1;
+
+          lichLamList = [];
+          isLoadingList = true;
+        });
+
+        // reload lại dữ liệu
+        await loadLichLam();
       } else {
         final data = jsonDecode(response.body);
         _showSnackBar("❌ ${data['message']}", Colors.redAccent);

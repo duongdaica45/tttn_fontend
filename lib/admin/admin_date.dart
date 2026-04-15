@@ -11,22 +11,32 @@ class Quanlyngay extends StatefulWidget {
 }
 
 class _QuanLyNgay extends State<Quanlyngay> {
+  bool isNextWeek = true;
   List<dynamic> danhSachNgay = [];
-  bool isLoading = true; // Thêm biến để quản lý trạng thái tải dữ liệu
-  final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
+  bool isLoading = true;
 
-  @override
-  void initState() {
-    super.initState();
-    fetchNextWeek();
-  }
+  // Bạn có thể đổi sang IP máy của mình nếu chạy trên thiết bị thật
 
-  Future<void> fetchNextWeek() async {
+  final String baseUrl = " https://tttn-1-ujfk.onrender.com/api";
+
+  //final String baseUrl = "http://localhost:8000/api";
+  final Color primaryPink = Colors.pink;
+  final Color softPink = const Color(0xFFFCE4EC);
+
+  // ======================
+  // GỌI API & LÀM MỚI
+  // ======================
+  Future<void> fetchWeek() async {
     try {
+      // Khi dùng RefreshIndicator, chúng ta không set isLoading = true
+      // để tránh hiện 2 vòng xoay cùng lúc
+      String today = DateTime.now().toString().split(' ')[0];
+      String url = isNextWeek ? "$baseUrl/next-week" : "$baseUrl/current-week";
+
       final response = await http.post(
-        Uri.parse("$baseUrl/next-week"),
+        Uri.parse(url),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"ngay": "2026-04-12"}),
+        body: jsonEncode({"ngay": today}),
       );
 
       if (response.statusCode == 200) {
@@ -37,7 +47,7 @@ class _QuanLyNgay extends State<Quanlyngay> {
       }
     } catch (e) {
       setState(() => isLoading = false);
-      print("Lỗi kết nối: $e");
+      debugPrint("Lỗi: $e");
     }
   }
 
@@ -52,37 +62,55 @@ class _QuanLyNgay extends State<Quanlyngay> {
       setState(() {
         danhSachNgay[index]["mo_tao_ca"] = value;
       });
-      // Hiển thị thông báo nhẹ nhàng
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("${value ? 'Đã mở' : 'Đã đóng'} tạo ca cho ngày $ngay"),
-          backgroundColor: Colors.pink[300],
-          duration: const Duration(seconds: 1),
+          content: Text("${value ? 'Đã mở' : 'Đã đóng'} tạo ca ngày $ngay"),
+          backgroundColor: primaryPink,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
     }
   }
 
   @override
+  void initState() {
+    super.initState();
+    fetchWeek();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.pink[50]?.withOpacity(0.3), // Nền hồng trắng nhạt
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          "Quản lý ngày",
-          style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
+          "Quản Lý Ngày",
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.pink,
+        backgroundColor: primaryPink,
         foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
+        actions: [
+          // Nút chuyển tuần nhanh trên AppBar
+          IconButton(
+            icon: const Icon(Icons.swap_calls),
+            onPressed: () {
+              setState(() => isNextWeek = !isNextWeek);
+              fetchWeek();
+            },
+          ),
+        ],
       ),
 
-      // Nút nổi nhấn mạnh việc Tạo Ca
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.pink,
+        backgroundColor: primaryPink,
         foregroundColor: Colors.white,
-        icon: const Icon(Icons.add_circle_outline),
+        icon: const Icon(Icons.add),
         label: const Text("TẠO CA MỚI"),
         onPressed: () {
           Navigator.push(
@@ -92,83 +120,139 @@ class _QuanLyNgay extends State<Quanlyngay> {
         },
       ),
 
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.pink))
-          : Column(
+      body: Column(
+        children: [
+          // Header hiển thị thông tin tuần
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            decoration: BoxDecoration(
+              color: primaryPink,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Header trang trí
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  color: Colors.pink,
-                  child: const Row(
-                    children: [
-                      Icon(Icons.calendar_month, color: Colors.white70),
-                      SizedBox(width: 10),
-                      Text(
-                        "Lịch trình tuần tới",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isNextWeek ? "LỊCH TRÌNH TUẦN TỚI" : "LỊCH TUẦN HIỆN TẠI",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFCE4EC),
+                          foregroundColor: Colors.black,
+                        ),
+                        icon: Icon(Icons.swap_horiz),
+                        label: Text(
+                          isNextWeek ? "Xem tuần hiện tại" : "Xem tuần tới",
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isNextWeek = !isNextWeek;
+                          });
+
+                          fetchWeek(); // 🔥 reload lại
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.only(top: 10, bottom: 80),
-                    itemCount: danhSachNgay.length,
-                    itemBuilder: (context, index) {
-                      var item = danhSachNgay[index];
-                      bool isOpen = item["mo_tao_ca"] ?? false;
-
-                      return Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 8,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 5,
-                          ),
-                          leading: CircleAvatar(
-                            backgroundColor: isOpen
-                                ? Colors.pink[100]
-                                : Colors.grey[200],
-                            child: Icon(
-                              Icons.event,
-                              color: isOpen ? Colors.pink : Colors.grey,
-                            ),
-                          ),
-                          title: Text(
-                            item["ngay"],
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          subtitle: Text(
-                            item["thu"],
-                            style: TextStyle(color: Colors.pink[300]),
-                          ),
-                          trailing: Switch(
-                            activeColor: Colors.pink,
-                            activeTrackColor: Colors.pink[100],
-                            value: isOpen,
-                            onChanged: (value) {
-                              toggleNgay(item["ngay"], value, index);
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                const Icon(
+                  Icons.calendar_today,
+                  color: Colors.white24,
+                  size: 40,
                 ),
               ],
             ),
+          ),
+
+          Expanded(
+            child: isLoading
+                ? Center(child: CircularProgressIndicator(color: primaryPink))
+                : RefreshIndicator(
+                    color: primaryPink,
+                    onRefresh: fetchWeek, // 🔥 Tính năng kéo để làm mới
+                    child: ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 100),
+                      itemCount: danhSachNgay.length,
+                      itemBuilder: (context, index) {
+                        var item = danhSachNgay[index];
+                        bool isOpen = item["mo_tao_ca"] ?? false;
+
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 15),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                            border: Border.all(
+                              color: isOpen
+                                  ? primaryPink.withOpacity(0.2)
+                                  : Colors.transparent,
+                            ),
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                            leading: Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: isOpen ? softPink : Colors.grey[100],
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.event_available,
+                                color: isOpen ? primaryPink : Colors.grey,
+                              ),
+                            ),
+                            title: Text(
+                              item["ngay"],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                              ),
+                            ),
+                            subtitle: Text(
+                              item["thu"],
+                              style: TextStyle(
+                                color: primaryPink.withOpacity(0.7),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            trailing: Switch(
+                              activeColor: primaryPink,
+                              value: isOpen,
+                              onChanged: (value) =>
+                                  toggleNgay(item["ngay"], value, index),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+          ),
+        ],
+      ),
     );
   }
 }
