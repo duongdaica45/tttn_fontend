@@ -4,6 +4,7 @@ import 'package:hr_payyroll/nhanvien/nhanvien_diemdanh.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_bangluong.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_catrongtuan.dart';
 import 'package:hr_payyroll/main.dart';
+
 class PartScreen extends StatelessWidget {
   const PartScreen({super.key, required this.user});
   final Map user;
@@ -89,11 +90,10 @@ class HomePage extends StatelessWidget {
             ListTile(
               title: Text("Đăng xuất"),
               onTap: () {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => MyApp(),
-                  ),
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (route) => false,
                 );
               },
             ),

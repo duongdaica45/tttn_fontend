@@ -3,6 +3,7 @@ import 'admin_listNhanVien.dart';
 import 'admin_date.dart';
 import 'admin_duyetdon.dart';
 import 'package:hr_payyroll/main.dart';
+
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
 
@@ -66,9 +67,10 @@ class HomePage extends StatelessWidget {
             ListTile(
               title: Text("Đăng xuất"),
               onTap: () {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => MyApp()),
+                  (route) => false,
                 );
               },
             ),

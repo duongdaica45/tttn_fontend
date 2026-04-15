@@ -14,8 +14,8 @@ class Diemdanh extends StatefulWidget {
 class _DiemdanhState extends State<Diemdanh> {
   String message = "";
   bool isLoading = false;
-  final String baseUrl = "http://localhost:8000/api";
-  //final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
+  //final String baseUrl = "http://localhost:8000/api";
+  final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
   final Color primaryPink = Colors.pink;
   final Color softPink = const Color(0xFFFCE4EC);
 
