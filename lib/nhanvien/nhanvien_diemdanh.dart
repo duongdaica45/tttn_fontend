@@ -14,8 +14,8 @@ class Diemdanh extends StatefulWidget {
 class _DiemdanhState extends State<Diemdanh> {
   String message = "";
   bool isLoading = false;
-
-  final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
+  final String baseUrl = "http://localhost:8000/api";
+  //final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
   final Color primaryPink = Colors.pink;
   final Color softPink = const Color(0xFFFCE4EC);
 
@@ -56,24 +56,36 @@ class _DiemdanhState extends State<Diemdanh> {
   }
 
   // API Check-in/Out giữ nguyên logic, chỉ cập nhật message
-  Future<void> callApi(String endpoint) async {
-    if (isLoading) return;
-
+  Future<void> checkIn() async {
     setState(() => isLoading = true);
-
     try {
-      final response = await http
-          .post(
-            Uri.parse("$baseUrl/$endpoint"),
-            headers: {"Content-Type": "application/json"},
-            body: jsonEncode({"nhanvien_id": widget.user['id']}),
-          )
-          .timeout(const Duration(seconds: 10));
+      final response = await http.post(
+        Uri.parse("$baseUrl/check-in"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"nhanvien_id": widget.user['id']}),
+      );
+      final data = jsonDecode(response.body);
+      setState(() => message = data['message']);
+    } catch (e) {
+      setState(() => message = "Lỗi kết nối");
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
 
-      final data = response.body.isNotEmpty ? jsonDecode(response.body) : {};
-
+  Future<void> checkOut() async {
+    setState(() => isLoading = true);
+    try {
+      final response = await http.post(
+        Uri.parse("$baseUrl/check-out"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"nhanvien_id": widget.user['id']}),
+      );
+      final data = jsonDecode(response.body);
       setState(() {
-        message = data['message'] ?? "Không có phản hồi";
+        message =
+            data['message'] +
+            (data['so_gio'] != null ? " (${data['so_gio']} giờ)" : "");
       });
     } catch (e) {
       setState(() => message = "Lỗi kết nối");
@@ -142,10 +154,7 @@ class _DiemdanhState extends State<Diemdanh> {
                     title: "BẮT ĐẦU CA (CHECK-IN)",
                     icon: Icons.login_rounded,
                     color: const Color(0xFFF06292),
-                    onTap: () => _showConfirmDialog(
-                      "Check-in",
-                      () => callApi("check-in"),
-                    ),
+                    onTap: () => _showConfirmDialog("Check-in", checkIn),
                   ),
 
                   const SizedBox(height: 20),
@@ -155,10 +164,7 @@ class _DiemdanhState extends State<Diemdanh> {
                     title: "KẾT THÚC CA (CHECK-OUT)",
                     icon: Icons.logout_rounded,
                     color: const Color(0xFFF8BBD0),
-                    onTap: () => _showConfirmDialog(
-                      "Check-in",
-                      () => callApi("check-out"),
-                    ),
+                    onTap: () => _showConfirmDialog("Check-out", checkOut),
                   ),
 
                   const SizedBox(height: 40),
