@@ -137,7 +137,7 @@ class _CaTrongTuanPageState extends State<CaTrongTuanPage> {
                 ),
               ),
               title: Text(
-                item['ngay'],
+                item['ngay'].toString(),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -154,7 +154,7 @@ class _CaTrongTuanPageState extends State<CaTrongTuanPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  item['ten_ca'] ?? item['ca_lam_id'] ?? '---',
+                  item['ten_ca'] ?? item['ca_lam_id'].toString() ?? '---',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

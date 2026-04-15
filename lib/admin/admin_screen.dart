@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'admin_listNhanVien.dart';
 import 'admin_date.dart';
 import 'admin_duyetdon.dart';
+import 'package:hr_payyroll/main.dart';
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home :HomePage(),
-    );
+    return MaterialApp(home: HomePage());
   }
 }
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => AdminScreen()),
                 );
               },
-            ),        
+            ),
             ListTile(
               title: Text("Quản lý nhân viên"),
               onTap: () {
@@ -60,6 +60,15 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => DuyetDon()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text("Đăng xuất"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyApp()),
                 );
               },
             ),

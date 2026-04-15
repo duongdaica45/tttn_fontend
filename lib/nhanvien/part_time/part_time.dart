@@ -3,6 +3,7 @@ import 'package:hr_payyroll/nhanvien/part_time/part_time_dangki.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_diemdanh.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_bangluong.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_catrongtuan.dart';
+import 'package:hr_payyroll/main.dart';
 class PartScreen extends StatelessWidget {
   const PartScreen({super.key, required this.user});
   final Map user;
@@ -81,6 +82,17 @@ class HomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => CaTrongTuanPage(user: user),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text("Đăng xuất"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyApp(),
                   ),
                 );
               },

@@ -17,7 +17,7 @@ class _QuanLyNgay extends State<Quanlyngay> {
 
   // Bạn có thể đổi sang IP máy của mình nếu chạy trên thiết bị thật
 
-  final String baseUrl = " https://tttn-1-ujfk.onrender.com/api";
+  final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
 
   //final String baseUrl = "http://localhost:8000/api";
   final Color primaryPink = Colors.pink;

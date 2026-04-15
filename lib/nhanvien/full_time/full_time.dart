@@ -3,6 +3,7 @@ import 'full_time_donXinNghi.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_diemdanh.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_bangluong.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_catrongtuan.dart';
+import 'package:hr_payyroll/main.dart';
 class FullScreen extends StatelessWidget {
   final Map user;
 
@@ -81,6 +82,17 @@ class HomePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => CaTrongTuanPage(user: user),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text("Đăng xuất"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyApp(),
                   ),
                 );
               },
