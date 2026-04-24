@@ -131,18 +131,15 @@ class _HomePageState extends State<HomePage> {
             Icon(
               Icons.auto_awesome_motion,
               size: 80,
-              color: Colors.indigo.withOpacity(0.2),
+              color: Colors.white.withOpacity(0.2),
             ),
             const SizedBox(height: 16),
             const Text(
               "Hiện không có đơn nào cần duyệt",
-              style: TextStyle(color: Colors.grey, fontSize: 16),
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
             const SizedBox(height: 8),
-            const Text(
-              "Vuốt xuống để tải lại",
-              style: TextStyle(color: Colors.indigo, fontSize: 12),
-            ),
+
           ],
         ),
       ),
