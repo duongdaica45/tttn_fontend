@@ -109,49 +109,41 @@ class _BangLuongPageState extends State<BangLuongPage> {
             padding: const EdgeInsets.all(15),
             child: Column(
               children: [
-                // 📅 Form chọn tháng năm
                 Form(
                   key: _formKey,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButtonFormField<int>(
-                          value: thang,
-                          decoration: _inputDecoration("Tháng"),
-                          items: List.generate(12, (i) => i + 1)
-                              .map(
-                                (m) => DropdownMenuItem(
-                                  value: m,
-                                  child: Text("Tháng $m"),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() => thang = value!);
-                            loadData();
-                          },
-                        ),
+                  child: GestureDetector(
+                    onTap: pickMonthYear,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 15,
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: TextFormField(
-                          controller: namController,
-                          decoration: _inputDecoration("Năm"),
-                          keyboardType: TextInputType.number,
-                          validator: validateNam,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                          ],
-                          onFieldSubmitted: (v) => loadData(),
-                        ),
+                      decoration: BoxDecoration(
+                        color: softPink.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: primaryPink),
                       ),
-                    ],
+                      child: Row(
+                        children: [
+                          Icon(Icons.calendar_month, color: primaryPink),
+                          const SizedBox(width: 10),
+                          Text(
+                            "Tháng $thang / $nam",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: primaryPink,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-
           if (isLoading) CircularProgressIndicator(color: primaryPink),
 
           if (!isLoading && data.isEmpty)
@@ -293,6 +285,26 @@ class _BangLuongPageState extends State<BangLuongPage> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
     );
   }
+
+  Future<void> pickMonthYear() async {
+    DateTime initialDate = DateTime(nam, thang);
+
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(2015),
+      lastDate: DateTime.now(),
+      initialDatePickerMode: DatePickerMode.year, // mở chọn năm trước
+    );
+
+    if (picked != null) {
+      setState(() {
+        thang = picked.month;
+        nam = picked.year;
+      });
+      loadData();
+    }
+  }
 }
 
 // Validator (giữ nguyên logic)
@@ -304,3 +316,8 @@ String? validateNam(String? value) {
   if (n < 2015 || n > currentYear) return "Từ 2015-$currentYear";
   return null;
 }
+
+List<int> danhSachNam = List.generate(
+  DateTime.now().year - 2015 + 1,
+  (index) => 2015 + index,
+).reversed.toList(); // mới nhất lên trên
