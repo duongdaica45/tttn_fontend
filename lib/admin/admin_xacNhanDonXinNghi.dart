@@ -41,7 +41,7 @@ class _ChiTietDuyetDonScreenState extends State<ChiTietDuyetDonScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(data['message']),
-              backgroundColor: Colors.pink,
+              backgroundColor: Colors.indigo,
             ),
           );
           Navigator.push(
@@ -68,7 +68,7 @@ class _ChiTietDuyetDonScreenState extends State<ChiTietDuyetDonScreen> {
           "Chi tiết Duyệt đơn",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -80,7 +80,7 @@ class _ChiTietDuyetDonScreenState extends State<ChiTietDuyetDonScreen> {
             // --- CARD THÔNG TIN ---
             Card(
               elevation: 2,
-              shadowColor: Colors.pink.withOpacity(0.2),
+              shadowColor: Colors.indigo.withOpacity(0.2),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -91,14 +91,14 @@ class _ChiTietDuyetDonScreenState extends State<ChiTietDuyetDonScreen> {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.assignment_ind, color: Colors.pink),
+                        const Icon(Icons.assignment_ind, color: Colors.indigo),
                         const SizedBox(width: 10),
                         Text(
                           "THÔNG TIN NHÂN VIÊN",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: Colors.pink[700],
+                            color: Colors.indigo[700],
                             letterSpacing: 1.1,
                           ),
                         ),
@@ -138,22 +138,22 @@ class _ChiTietDuyetDonScreenState extends State<ChiTietDuyetDonScreen> {
               maxLines: 3,
               decoration: InputDecoration(
                 labelText: "Ghi chú của Admin",
-                labelStyle: const TextStyle(color: Colors.pink),
+                labelStyle: const TextStyle(color: Colors.indigo),
                 hintText: "Nhập nội dung phản hồi...",
                 filled: true,
                 fillColor: Colors.white,
                 alignLabelWithHint: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
-                  borderSide: BorderSide(color: Colors.pink[100]!),
+                  borderSide: BorderSide(color: Colors.indigo[100]!),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
-                  borderSide: BorderSide(color: Colors.pink[100]!),
+                  borderSide: BorderSide(color: Colors.indigo[100]!),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
-                  borderSide: const BorderSide(color: Colors.pink, width: 2),
+                  borderSide: const BorderSide(color: Colors.indigo, width: 2),
                 ),
               ),
             ),
@@ -162,7 +162,7 @@ class _ChiTietDuyetDonScreenState extends State<ChiTietDuyetDonScreen> {
 
             // --- HÀNG NÚT BẤM ---
             isLoading
-                ? const CircularProgressIndicator(color: Colors.pink)
+                ? const CircularProgressIndicator(color: Colors.indigo)
                 : Row(
                     children: [
                       // Nút Từ chối
@@ -172,7 +172,7 @@ class _ChiTietDuyetDonScreenState extends State<ChiTietDuyetDonScreen> {
                         child: ElevatedButton(
                           onPressed: () => xuLyDon("chap_nhan"),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pink,
+                            backgroundColor: Colors.indigo,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             elevation: 2,

@@ -19,8 +19,8 @@ class _CaTrongTuanPageState extends State<CaTrongTuanPage> {
   //final String baseUrl = "http://127.0.0.1:8000/api";
   final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
   // Hệ màu chủ đạo
-  final Color primaryPink = Colors.pink;
-  final Color softPink = const Color(0xFFFCE4EC);
+  final Color primaryPink = Colors.indigo;
+  final Color softPink = const Color(0xFFE8EAF6);
 
   Future<void> loadData() async {
     setState(() => isLoading = true);

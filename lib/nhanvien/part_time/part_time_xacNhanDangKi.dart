@@ -134,8 +134,8 @@ class _DangKyCaScreenState extends State<DangKyCaScreen> {
   @override
   Widget build(BuildContext context) {
     // Định nghĩa màu hồng chủ đạo để dễ thay đổi sau này
-    const Color primaryPink = Colors.pink;
-    const Color lightPink = Color(0xFFFCE4EC); // Colors.pink[50]
+    const Color primaryPink = Colors.indigo;
+    const Color lightPink = Color(0xFFE8EAF6); // Colors.pink[50]
 
     final lich = widget.lichLam;
     final nv = widget.user;
@@ -268,7 +268,7 @@ class _DangKyCaScreenState extends State<DangKyCaScreen> {
                     // Icon màu hồng
                     leading: const Icon(
                       Icons.access_time_rounded,
-                      color: Color.fromARGB(255, 233, 30, 99),
+                      color: Color(0xFF7986CB ),
                     ),
                     title: Text(
                       "Ca làm",
@@ -318,14 +318,14 @@ class _DangKyCaScreenState extends State<DangKyCaScreen> {
                 child: OutlinedButton(
                   onPressed: isLoading ? null : huyDangKyCa,
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 233, 30, 99),
-                    side: const BorderSide(color: Colors.red),
+                    foregroundColor: const Color(0xFF7986CB ),
+                    side: const BorderSide(color: Colors.blue),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
                   child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.red)
+                      ? const CircularProgressIndicator(color: Colors.blue)
                       : const Text(
                           "HỦY ĐĂNG KÝ",
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -338,7 +338,7 @@ class _DangKyCaScreenState extends State<DangKyCaScreen> {
                 child: ElevatedButton(
                   onPressed: isLoading ? null : dangKyCa,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pink,
+                    backgroundColor: Colors.indigo,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

@@ -20,8 +20,8 @@ class _QuanLyNgay extends State<Quanlyngay> {
   final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
 
   //final String baseUrl = "http://localhost:8000/api";
-  final Color primaryPink = Colors.pink;
-  final Color softPink = const Color(0xFFFCE4EC);
+  final Color primaryPink = Colors.indigo;
+  final Color softPink = const Color(0xFF7986CB);
 
   // ======================
   // GỌI API & LÀM MỚI

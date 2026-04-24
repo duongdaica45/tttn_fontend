@@ -51,7 +51,7 @@ class _DanhSachNhanVienFullScreenState
           "Chọn Nhân Viên",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
@@ -63,7 +63,7 @@ class _DanhSachNhanVienFullScreenState
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.pink[50],
+              color: Colors.indigo[50],
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(25),
                 bottomRight: Radius.circular(25),
@@ -71,12 +71,12 @@ class _DanhSachNhanVienFullScreenState
             ),
             child: Row(
               children: [
-                const Icon(Icons.info_outline, color: Colors.pink),
+                const Icon(Icons.info_outline, color: Colors.indigo),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     "Đang chọn nhân viên cho ngày ${widget.lichLam['ngay']} (${widget.lichLam['ten_ca']})",
-                    style: const TextStyle(color: Colors.pink, fontSize: 13),
+                    style: const TextStyle(color: Colors.indigo, fontSize: 13),
                   ),
                 ),
               ],
@@ -86,7 +86,7 @@ class _DanhSachNhanVienFullScreenState
           Expanded(
             child: isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(color: Colors.pink),
+                    child: CircularProgressIndicator(color: Colors.indigo),
                   )
                 : nhanVienList.isEmpty
                 ? const Center(child: Text("Không có nhân viên nào"))
@@ -103,7 +103,7 @@ class _DanhSachNhanVienFullScreenState
                           borderRadius: BorderRadius.circular(15),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.pink.withOpacity(0.05),
+                              color: Colors.indigo.withOpacity(0.05),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
                             ),
@@ -115,8 +115,8 @@ class _DanhSachNhanVienFullScreenState
                             vertical: 8,
                           ),
                           leading: CircleAvatar(
-                            backgroundColor: Colors.pink[100],
-                            child: const Icon(Icons.person, color: Colors.pink),
+                            backgroundColor: Colors.indigo[100],
+                            child: const Icon(Icons.person, color: Colors.indigo),
                           ),
                           title: Text(
                             nv['ten_nhan_vien'] ?? 'Không tên',
@@ -129,13 +129,13 @@ class _DanhSachNhanVienFullScreenState
                             padding: const EdgeInsets.only(top: 4),
                             child: Text(
                               "Chức vụ: ${nv['chuc_vu']}",
-                              style: TextStyle(color: Colors.pink[300]),
+                              style: TextStyle(color: Colors.indigo[300]),
                             ),
                           ),
                           trailing: Icon(
                             Icons.arrow_forward_ios_rounded,
                             size: 16,
-                            color: Colors.pink[200],
+                            color: Colors.indigo[200],
                           ),
                           onTap: () {
                             Navigator.push(

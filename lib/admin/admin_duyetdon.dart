@@ -78,14 +78,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFDFBFC),
+      backgroundColor: const Color(0xFF7986CB),
       appBar: AppBar(
         title: const Text(
           "Duyệt Đơn Xin Nghỉ",
           style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 233, 30, 99),
+        backgroundColor: const Color(0xFF7986CB),
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
@@ -94,12 +94,12 @@ class _HomePageState extends State<HomePage> {
       ),
       // Sử dụng RefreshIndicator bao bọc toàn bộ body
       body: RefreshIndicator(
-        color: Colors.pink,
+        color: Colors.indigo,
         onRefresh: () async {
           await fetchDon(); // Đảm bảo fetchDon() trả về Future
         },
         child: isLoading
-            ? const Center(child: CircularProgressIndicator(color: Colors.pink))
+            ? const Center(child: CircularProgressIndicator(color: Colors.indigo))
             : donList.isEmpty
             ? _buildEmptyState()
             : ListView.builder(
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
             Icon(
               Icons.auto_awesome_motion,
               size: 80,
-              color: Colors.pink.withOpacity(0.2),
+              color: Colors.indigo.withOpacity(0.2),
             ),
             const SizedBox(height: 16),
             const Text(
@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 8),
             const Text(
               "Vuốt xuống để tải lại",
-              style: TextStyle(color: Colors.pink, fontSize: 12),
+              style: TextStyle(color: Colors.indigo, fontSize: 12),
             ),
           ],
         ),
@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.pink.withOpacity(0.05),
+            color: Colors.indigo.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -187,8 +187,8 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         children: [
                           CircleAvatar(
-                            backgroundColor: Colors.pink.shade50,
-                            child: const Icon(Icons.person, color: Colors.pink),
+                            backgroundColor: Colors.indigo.shade50,
+                            child: const Icon(Icons.person, color: Colors.indigo),
                           ),
                           const SizedBox(width: 12),
                           Column(
@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                               Text(
                                 item['chuc_vu'],
                                 style: TextStyle(
-                                  color: Colors.pink.shade300,
+                                  color: Colors.indigo.shade300,
                                   fontSize: 13,
                                 ),
                               ),
@@ -236,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       "Xem chi tiết >",
                       style: TextStyle(
-                        color: Colors.pink,
+                        color: Colors.indigo,
                         fontWeight: FontWeight.w600,
                         fontSize: 12,
                       ),

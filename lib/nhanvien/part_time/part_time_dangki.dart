@@ -16,8 +16,8 @@ class _NhanVienNgayMoState extends State<NhanVienNgayMo> {
   bool isLoading = true;
 
   // Định nghĩa mã màu chủ đạo
-  final Color primaryPink = Colors.pink;
-  final Color softPink = const Color(0xFFFCE4EC);
+  final Color primaryPink = Colors.indigo;
+  final Color softPink = const Color(0xFFE8EAF6);
 
   @override
   void initState() {
@@ -27,12 +27,27 @@ class _NhanVienNgayMoState extends State<NhanVienNgayMo> {
 
   Future<void> fetchLichLam() async {
     final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/lich-lam");
+
     try {
       final response = await http.get(url);
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+
+        DateTime start = startOfWeek;
+        DateTime end = endOfNextWeek;
+
+        List filtered = data.where((item) {
+          if (item['ngay'] == null) return false;
+
+          DateTime ngay = DateTime.parse(item['ngay']);
+
+          return ngay.isAfter(start.subtract(const Duration(days: 1))) &&
+              ngay.isBefore(end.add(const Duration(days: 1)));
+        }).toList();
+
         setState(() {
-          lichLamList = data;
+          lichLamList = filtered;
           isLoading = false;
         });
       } else {
@@ -63,7 +78,7 @@ class _NhanVienNgayMoState extends State<NhanVienNgayMo> {
         ),
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.pink))
+          ? const Center(child: CircularProgressIndicator(color: Colors.indigo))
           : lichLamList.isEmpty
           ? _buildEmptyState()
           : RefreshIndicator(
@@ -110,7 +125,7 @@ class _NhanVienNgayMoState extends State<NhanVienNgayMo> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.pink.withOpacity(0.08),
+            color: Colors.indigo.withOpacity(0.08),
             blurRadius: 15,
             spreadRadius: 2,
             offset: const Offset(0, 5),
@@ -168,7 +183,7 @@ class _NhanVienNgayMoState extends State<NhanVienNgayMo> {
                           item['ten_ca'] ?? "",
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.pink.shade300,
+                            color: Colors.indigo.shade300,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -211,4 +226,13 @@ class _NhanVienNgayMoState extends State<NhanVienNgayMo> {
       ),
     );
   }
+}
+
+DateTime get startOfWeek {
+  final now = DateTime.now();
+  return now.subtract(Duration(days: now.weekday - 1)); // Thứ 2
+}
+
+DateTime get endOfNextWeek {
+  return startOfWeek.add(const Duration(days: 13)); // + 2 tuần - 1
 }

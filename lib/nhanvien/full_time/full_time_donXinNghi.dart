@@ -20,8 +20,8 @@ class _DonxinnghiState extends State<Donxinnghi> {
   bool isLoading = false;
 
   // Theme Colors
-  final Color primaryPink = Colors.pink;
-  final Color softPink = const Color(0xFFFCE4EC);
+  final Color primaryPink = Colors.indigo;
+  final Color softPink = const Color(0xFFE8EAF6);
 
   @override
   void initState() {

@@ -23,8 +23,8 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
   bool isLoadingTrangThai = true;
 
   // --- Theme Colors ---
-  static const Color primaryPink = Colors.pink;
-  static const Color accentPink = Color(0xFFF06292);
+  static const Color primaryPink = Colors.indigo;
+  static const Color accentPink = Color(0xFF7986CB);
   static const Color softPink = Color(0xFFFFF1F4); // Hồng trắng cực nhẹ cho nền
 
   @override
@@ -75,7 +75,7 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(data['message'] ?? "Thành công"),
-            backgroundColor: type == "dangky" ? Colors.pink : Colors.redAccent,
+            backgroundColor: type == "dangky" ? Colors.indigo : Colors.redAccent,
           ),
         );
         Navigator.pop(context);
@@ -97,12 +97,12 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
           style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.1),
         ),
         centerTitle: true,
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
         elevation: 0,
       ),
       body: isLoadingTrangThai
-          ? const Center(child: CircularProgressIndicator(color: Colors.pink))
+          ? const Center(child: CircularProgressIndicator(color: Colors.indigo))
           : SingleChildScrollView(
               child: Column(
                 children: [
@@ -110,7 +110,7 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
                   Container(
                     height: 60,
                     decoration: const BoxDecoration(
-                      color: Colors.pink,
+                      color: Colors.indigo,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
@@ -212,7 +212,7 @@ class _XacNhanDangKyScreenState extends State<XacNhanDangKyScreen> {
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Colors.pink.withOpacity(0.08),
+            color: Colors.indigo.withOpacity(0.08),
             blurRadius: 20,
             spreadRadius: 2,
             offset: const Offset(0, 10),

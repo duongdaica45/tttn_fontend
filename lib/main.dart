@@ -17,9 +17,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.pink,
-        scaffoldBackgroundColor: Colors.white, // Nền trắng toàn app
+        primaryColor: Colors.indigo[300],
+        scaffoldBackgroundColor: Colors.white,
       ),
+
       home: const LoginScreen(),
     );
   }
@@ -64,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Đăng nhập thành công"),
-              backgroundColor: Colors.pink,
+              backgroundColor: Colors.indigo,
             ),
           );
         }
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(data['message'] ?? "Lỗi đăng nhập"),
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.indigoAccent,
             ),
           );
         }
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.pink[50]!, Colors.white],
+            colors: [Colors.indigo[50]!, Colors.white],
           ),
         ),
         child: Center(
@@ -128,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Icon(
                   Icons.lock_person_rounded,
                   size: 80,
-                  color: Color.fromRGBO(233, 30, 99, 1),
+                  color: Color(0xFF7986CB),
                 ),
                 const SizedBox(height: 10),
                 const Text(
@@ -136,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.pink,
+                    color: Colors.indigo,
                     letterSpacing: 2,
                   ),
                 ),
@@ -167,13 +168,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     onPressed: isLoading ? null : login,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pink,
+                      backgroundColor: Colors.indigo,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
                       elevation: 5,
-                      shadowColor: Colors.pink.withOpacity(0.5),
+                      shadowColor: Colors.indigo.withOpacity(0.5),
                     ),
                     child: isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
@@ -207,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.pink.withOpacity(0.05),
+            color: Colors.indigo.withOpacity(0.05),
             blurRadius: 10,
             spreadRadius: 2,
             offset: const Offset(0, 5),
@@ -219,8 +220,8 @@ class _LoginScreenState extends State<LoginScreen> {
         obscureText: obscure,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: const TextStyle(color: Colors.pink),
-          prefixIcon: Icon(icon, color: Colors.pink),
+          labelStyle: const TextStyle(color: Colors.indigo),
+          prefixIcon: Icon(icon, color: Colors.indigo),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide.none,

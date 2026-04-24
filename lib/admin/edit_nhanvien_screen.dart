@@ -58,7 +58,7 @@ class _EditNhanVienScreenState extends State<EditNhanVienScreen> {
 
       final data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        _showSnackBar("Cập nhật thành công", Colors.pink);
+        _showSnackBar("Cập nhật thành công", Colors.indigo);
         Navigator.pop(context);
       } else {
         _showSnackBar(data['message'] ?? "Lỗi cập nhật", Colors.redAccent);
@@ -82,7 +82,7 @@ class _EditNhanVienScreenState extends State<EditNhanVienScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("Chỉnh Sửa Nhân Viên", style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
@@ -95,7 +95,7 @@ class _EditNhanVienScreenState extends State<EditNhanVienScreen> {
               tag: 'avatar_edit',
               child: CircleAvatar(
                 radius: 40,
-                backgroundColor: Colors.pink,
+                backgroundColor: Colors.indigo,
                 child: Icon(Icons.edit_note_rounded, size: 45, color: Colors.white),
               ),
             ),
@@ -109,7 +109,7 @@ class _EditNhanVienScreenState extends State<EditNhanVienScreen> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.pink.withOpacity(0.1),
+                    color: Colors.indigo.withOpacity(0.1),
                     blurRadius: 15,
                     spreadRadius: 2,
                     offset: const Offset(0, 5),
@@ -146,10 +146,10 @@ class _EditNhanVienScreenState extends State<EditNhanVienScreen> {
                     value: chucVu,
                     decoration: InputDecoration(
                       labelText: "Chức vụ",
-                      labelStyle: const TextStyle(color: Colors.pink),
-                      prefixIcon: const Icon(Icons.work_outline, color: Colors.pink),
+                      labelStyle: const TextStyle(color: Colors.indigo),
+                      prefixIcon: const Icon(Icons.work_outline, color: Colors.indigo),
                       filled: true,
-                      fillColor: Colors.pink.withOpacity(0.05),
+                      fillColor: Colors.indigo.withOpacity(0.05),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                         borderSide: BorderSide.none,
@@ -172,10 +172,10 @@ class _EditNhanVienScreenState extends State<EditNhanVienScreen> {
               child: ElevatedButton(
                 onPressed: isLoading ? null : updateNhanVien,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(233, 30, 99, 1),
+                  backgroundColor: const Color(0xFF7986CB ),
                   foregroundColor: Colors.white,
                   elevation: 4,
-                  shadowColor: Colors.pink.withOpacity(0.4),
+                  shadowColor: Colors.indigo.withOpacity(0.4),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                 ),
                 child: isLoading
@@ -203,17 +203,17 @@ class _EditNhanVienScreenState extends State<EditNhanVienScreen> {
       inputFormatters: formatters,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.pink),
-        prefixIcon: Icon(icon, color: Colors.pink),
+        labelStyle: const TextStyle(color: Colors.indigo),
+        prefixIcon: Icon(icon, color: Colors.indigo),
         filled: true,
-        fillColor: Colors.pink.withOpacity(0.05),
+        fillColor: Colors.indigo.withOpacity(0.05),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Colors.pink, width: 1),
+          borderSide: const BorderSide(color: Colors.indigo, width: 1),
         ),
       ),
     );

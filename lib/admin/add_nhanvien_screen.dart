@@ -57,7 +57,7 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Thêm thành công"),
-              backgroundColor: Colors.pink,
+              backgroundColor: Colors.indigo,
             ),
           );
           Navigator.pop(context);
@@ -87,7 +87,7 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
           "Thêm Nhân Viên",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
@@ -114,7 +114,7 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
               // Biểu tượng trang trí phía trên
               const CircleAvatar(
                 radius: 40,
-                backgroundColor: Colors.pink,
+                backgroundColor: Colors.indigo,
                 child: Icon(
                   Icons.person_add_alt_1,
                   size: 40,
@@ -131,7 +131,7 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.pink.withOpacity(0.1),
+                      color: Colors.indigo.withOpacity(0.1),
                       blurRadius: 20,
                       spreadRadius: 5,
                     ),
@@ -179,13 +179,13 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
                       value: chucVu,
                       decoration: InputDecoration(
                         labelText: "Chức vụ",
-                        labelStyle: const TextStyle(color: Colors.pink),
+                        labelStyle: const TextStyle(color: Colors.indigo),
                         prefixIcon: const Icon(
                           Icons.badge_outlined,
-                          color: Colors.pink,
+                          color: Colors.indigo,
                         ),
                         filled: true,
-                        fillColor: Colors.pink.withOpacity(0.05),
+                        fillColor: Colors.indigo.withOpacity(0.05),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
                           borderSide: BorderSide.none,
@@ -214,13 +214,13 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
                 child: ElevatedButton(
                   onPressed: isLoading ? null : addNhanVien,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pink,
+                    backgroundColor: Colors.indigo,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                     elevation: 5,
-                    shadowColor: Colors.pink.withOpacity(0.5),
+                    shadowColor: Colors.indigo.withOpacity(0.5),
                   ),
                   child: isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
@@ -256,17 +256,17 @@ class _AddNhanVienScreenState extends State<AddNhanVienScreen> {
       inputFormatters: formatters,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.pink),
-        prefixIcon: Icon(icon, color: Colors.pink),
+        labelStyle: const TextStyle(color: Colors.indigo),
+        prefixIcon: Icon(icon, color: Colors.indigo),
         filled: true,
-        fillColor: Colors.pink.withOpacity(0.05),
+        fillColor: Colors.indigo.withOpacity(0.05),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Colors.pink, width: 1),
+          borderSide: const BorderSide(color: Colors.indigo, width: 1),
         ),
       ),
     );

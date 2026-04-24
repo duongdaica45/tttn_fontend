@@ -19,8 +19,8 @@ class _BangLuongPageState extends State<BangLuongPage> {
   int pageSize = 10;
 
   // Màu sắc chủ đạo
-  final Color primaryPink = Colors.pink;
-  final Color softPink = const Color(0xFFFCE4EC);
+  final Color primaryPink = Colors.indigo;
+  final Color softPink = const Color(0xFFE8EAF6);
 
   List get paginatedData {
     int start = currentPage * pageSize;

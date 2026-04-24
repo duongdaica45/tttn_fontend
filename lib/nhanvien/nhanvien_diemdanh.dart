@@ -16,8 +16,8 @@ class _DiemdanhState extends State<Diemdanh> {
   bool isLoading = false;
   //final String baseUrl = "http://localhost:8000/api";
   final String baseUrl = "https://tttn-1-ujfk.onrender.com/api";
-  final Color primaryPink = Colors.pink;
-  final Color softPink = const Color(0xFFFCE4EC);
+  final Color primaryPink = Colors.indigo;
+  final Color softPink = const Color(0xFFE8EAF6);
 
   // =====================
   // CỬA SỔ XÁC NHẬN
@@ -153,7 +153,7 @@ class _DiemdanhState extends State<Diemdanh> {
                   _buildActionButton(
                     title: "BẮT ĐẦU CA (CHECK-IN)",
                     icon: Icons.login_rounded,
-                    color: const Color(0xFFF06292),
+                    color: const Color(0xFF7986CB ),
                     onTap: () => _showConfirmDialog("Check-in", checkIn),
                   ),
 
@@ -163,7 +163,7 @@ class _DiemdanhState extends State<Diemdanh> {
                   _buildActionButton(
                     title: "KẾT THÚC CA (CHECK-OUT)",
                     icon: Icons.logout_rounded,
-                    color: const Color(0xFFF8BBD0),
+                    color: const Color(0xFFE8EAF6),
                     onTap: () => _showConfirmDialog("Check-out", checkOut),
                   ),
 

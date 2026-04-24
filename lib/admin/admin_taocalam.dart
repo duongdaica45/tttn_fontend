@@ -47,11 +47,33 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
 
   Future<void> loadLichLam() async {
     final url = Uri.parse("https://tttn-1-ujfk.onrender.com/api/lich-lam");
+
     try {
       final response = await http.get(url);
+
       if (response.statusCode == 200) {
+        List data = jsonDecode(response.body);
+
+        DateTime start = startOfWeek;
+        DateTime end = endOfNextWeek;
+
+        List filtered = data.where((item) {
+          if (item['ngay'] == null) return false;
+
+          DateTime ngay = DateTime.parse(item['ngay']);
+
+          return ngay.isAfter(start.subtract(const Duration(days: 1))) &&
+              ngay.isBefore(end.add(const Duration(days: 1)));
+        }).toList();
+
+        // 👉 Sắp xếp theo ngày (rất nên có)
+        filtered.sort(
+          (a, b) =>
+              DateTime.parse(a['ngay']).compareTo(DateTime.parse(b['ngay'])),
+        );
+
         setState(() {
-          lichLamList = jsonDecode(response.body);
+          lichLamList = filtered;
           isLoadingList = false;
         });
       }
@@ -99,7 +121,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
       );
 
       if (response.statusCode == 201) {
-        _showSnackBar("✅ Tạo ca thành công", Colors.pink);
+        _showSnackBar("✅ Tạo ca thành công", Colors.indigo);
 
         // 🔥 RESET TOÀN BỘ TRANG
         setState(() {
@@ -115,7 +137,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
         await loadLichLam();
       } else {
         final data = jsonDecode(response.body);
-        _showSnackBar("❌ ${data['message']}", Colors.redAccent);
+        _showSnackBar(" ${data['message']}", Colors.redAccent);
       }
     } catch (e) {
       _showSnackBar("Lỗi kết nối", Colors.redAccent);
@@ -145,7 +167,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(primary: Colors.pink),
+            colorScheme: const ColorScheme.light(primary: Colors.indigo),
           ),
           child: child!,
         );
@@ -168,7 +190,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
           "Tạo Lịch Làm Việc",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.pink,
+        backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
@@ -179,7 +201,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.pink.withOpacity(0.05),
+              color: Colors.indigo.withOpacity(0.05),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
@@ -200,14 +222,14 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(
-                              color: Colors.pink.withOpacity(0.3),
+                              color: Colors.indigo.withOpacity(0.3),
                             ),
                           ),
                           child: Row(
                             children: [
                               const Icon(
                                 Icons.calendar_month,
-                                color: Colors.pink,
+                                color: Colors.indigo,
                                 size: 20,
                               ),
                               const SizedBox(width: 10),
@@ -236,7 +258,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
-                            color: Colors.pink.withOpacity(0.3),
+                            color: Colors.indigo.withOpacity(0.3),
                           ),
                         ),
                         child: DropdownButtonHideUnderline(
@@ -269,7 +291,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
                     labelText: "Số nhân viên tối đa",
-                    prefixIcon: const Icon(Icons.people, color: Colors.pink),
+                    prefixIcon: const Icon(Icons.people, color: Colors.indigo),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -279,7 +301,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(
-                        color: Colors.pink.withOpacity(0.3),
+                        color: Colors.indigo.withOpacity(0.3),
                       ),
                     ),
                   ),
@@ -292,7 +314,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                   child: ElevatedButton(
                     onPressed: isLoading ? null : taoCa,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pink,
+                      backgroundColor: Colors.indigo,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -316,7 +338,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
             child: Row(
               children: [
-                Container(width: 4, height: 20, color: Colors.pink),
+                Container(width: 4, height: 20, color: Colors.indigo),
                 const SizedBox(width: 10),
                 const Text(
                   "DANH SÁCH LỊCH ĐÃ TẠO",
@@ -331,7 +353,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
           Expanded(
             child: isLoadingList
                 ? const Center(
-                    child: CircularProgressIndicator(color: Colors.pink),
+                    child: CircularProgressIndicator(color: Colors.indigo),
                   )
                 : lichLamList.isEmpty
                 ? const Center(child: Text("Chưa có lịch làm"))
@@ -345,14 +367,14 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                         margin: const EdgeInsets.only(bottom: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(color: Colors.pink.withOpacity(0.1)),
+                          side: BorderSide(color: Colors.indigo.withOpacity(0.1)),
                         ),
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: Colors.pink[50],
+                            backgroundColor: Colors.indigo[50],
                             child: const Icon(
                               Icons.access_time_filled,
-                              color: Colors.pink,
+                              color: Colors.indigo,
                               size: 20,
                             ),
                           ),
@@ -362,7 +384,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                           ),
                           subtitle: Text(
                             item['ten_ca'],
-                            style: TextStyle(color: Colors.pink[300]),
+                            style: TextStyle(color: Colors.indigo[300]),
                           ),
                           trailing: Container(
                             padding: const EdgeInsets.symmetric(
@@ -370,13 +392,13 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.pink[50],
+                              color: Colors.indigo[50],
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
                               "Tối đa: ${item['max_nhan_vien']}",
                               style: const TextStyle(
-                                color: Colors.pink,
+                                color: Colors.indigo,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -436,4 +458,13 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
       ),
     );
   }
+}
+
+DateTime get startOfWeek {
+  final now = DateTime.now();
+  return now.subtract(Duration(days: now.weekday - 1)); // Thứ 2
+}
+
+DateTime get endOfNextWeek {
+  return startOfWeek.add(const Duration(days: 13)); // 2 tuần
 }
