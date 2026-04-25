@@ -12,6 +12,7 @@ class TaoCaScreen extends StatefulWidget {
 }
 
 class _TaoCaScreenState extends State<TaoCaScreen> {
+  int currentTab = 1; // 1 = Ca sáng, 2 = Ca chiều
   final TextEditingController ngayController = TextEditingController();
   final TextEditingController caLamIdController = TextEditingController();
   final TextEditingController maxNhanVienController = TextEditingController();
@@ -53,6 +54,11 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
 
       if (response.statusCode == 200) {
         List data = jsonDecode(response.body);
+        for (var item in data) {
+          print(
+            "ID: ${item['ca_lam_id']} - TYPE: ${item['ca_lam_id'].runtimeType}",
+          );
+        }
 
         DateTime start = startOfWeek;
         DateTime end = endOfNextWeek;
@@ -350,6 +356,18 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(child: _tabButton("Ca sáng", 1)),
+                const SizedBox(width: 10),
+                Expanded(child: _tabButton("Ca chiều", 2)),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+
           Expanded(
             child: isLoadingList
                 ? const Center(
@@ -359,15 +377,17 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
                 ? const Center(child: Text("Chưa có lịch làm"))
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: lichLamList.length,
+                    itemCount: filteredList.length,
                     itemBuilder: (context, index) {
-                      final item = lichLamList[index];
+                      final item = filteredList[index];
                       return Card(
                         elevation: 0,
                         margin: const EdgeInsets.only(bottom: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(color: Colors.indigo.withOpacity(0.1)),
+                          side: BorderSide(
+                            color: Colors.indigo.withOpacity(0.1),
+                          ),
                         ),
                         child: ListTile(
                           leading: CircleAvatar(
@@ -457,6 +477,41 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
         ],
       ),
     );
+  }
+
+  Widget _tabButton(String title, int value) {
+    bool isSelected = currentTab == value;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          currentTab = value;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.indigo : Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              color: isSelected ? Colors.white : Colors.black87,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  List get filteredList {
+    return lichLamList.where((item) {
+      int caId = item['ten_ca'] == "Ca sáng" ? 1 : 2;
+      return caId == currentTab;
+    }).toList();
   }
 }
 
