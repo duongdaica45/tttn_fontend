@@ -227,29 +227,35 @@ class _BangLuongPageState extends State<BangLuongPage> {
   // Widget: Điều hướng phân trang
   Widget _buildPagination() {
     int totalPages = (data.length / pageSize).ceil();
+
     return Container(
       padding: const EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _pageButton(
-            Icons.chevron_left,
-            currentPage > 0 ? () => setState(() => currentPage--) : null,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Trang ${currentPage + 1} / $totalPages",
-              style: const TextStyle(fontWeight: FontWeight.bold),
+        children: List.generate(totalPages, (index) {
+          bool isActive = index == currentPage;
+
+          return GestureDetector(
+            onTap: () {
+              setState(() => currentPage = index);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: isActive ? primaryPink : Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                "${index + 1}",
+                style: TextStyle(
+                  color: isActive ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-          _pageButton(
-            Icons.chevron_right,
-            (currentPage + 1) * pageSize < data.length
-                ? () => setState(() => currentPage++)
-                : null,
-          ),
-        ],
+          );
+        }),
       ),
     );
   }
