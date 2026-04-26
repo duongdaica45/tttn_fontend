@@ -114,100 +114,100 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // Tạo hiệu ứng gradient hồng nhạt phía trên nền
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.indigo[50]!, Colors.white],
+            colors: [Colors.indigo.shade100, Colors.white],
           ),
         ),
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(30),
+            padding: const EdgeInsets.all(24),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Biểu tượng hoặc Logo
                 const Icon(
                   Icons.lock_person_rounded,
                   size: 80,
-                  color: Color(0xFF7986CB),
+                  color: Colors.indigo,
                 ),
                 const SizedBox(height: 10),
+
                 const Text(
                   "WELCOME BACK",
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: Colors.indigo,
-                    letterSpacing: 2,
+                    letterSpacing: 1.5,
                   ),
                 ),
-                const SizedBox(height: 40),
 
-                // Ô nhập Email
+                const SizedBox(height: 30),
+
+                // 🔥 CARD FORM
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: selectedEmail,
-                      isExpanded: true,
-                      items: emailList.map((email) {
-                        return DropdownMenuItem(
-                          value: email,
-                          child: Text(email),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedEmail = value!;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-
-                // Ô nhập Mật khẩu
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: "Password",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-
-                // Nút Đăng nhập
-                SizedBox(
-                  width: double.infinity,
-                  height: 55,
-                  child: ElevatedButton(
-                    onPressed: isLoading ? null : login,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.indigo.withOpacity(0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
                       ),
-                      elevation: 5,
-                      shadowColor: Colors.indigo.withOpacity(0.5),
-                    ),
-                    child: isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                            "ĐĂNG NHẬP",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      // EMAIL DROPDOWN
+                      _buildDropdown(),
+
+                      const SizedBox(height: 15),
+
+                      // PASSWORD
+                      _buildTextField(
+                        controller: passwordController,
+                        label: "Password",
+                        icon: Icons.lock,
+                        obscure: true,
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // BUTTON
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: isLoading ? null : login,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.indigo,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
+                            elevation: 3,
                           ),
+                          child: isLoading
+                              ? const SizedBox(
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Text(
+                                  "ĐĂNG NHẬP",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -264,4 +264,38 @@ class _LoginScreenState extends State<LoginScreen> {
     "hao@gmail.com",
   ];
   String selectedEmail = "ntduong.ti@gmail.com";
+  Widget _buildDropdown() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.indigo.withOpacity(0.3)),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: selectedEmail,
+          isExpanded: true,
+          icon: const Icon(Icons.arrow_drop_down, color: Colors.indigo),
+          items: emailList.map((email) {
+            return DropdownMenuItem(
+              value: email,
+              child: Row(
+                children: [
+                  const Icon(Icons.person, color: Colors.indigo, size: 18),
+                  const SizedBox(width: 10),
+                  Text(email),
+                ],
+              ),
+            );
+          }).toList(),
+          onChanged: (value) {
+            setState(() {
+              selectedEmail = value!;
+            });
+          },
+        ),
+      ),
+    );
+  }
 }
