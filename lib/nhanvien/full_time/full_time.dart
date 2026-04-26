@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'full_time_donXinNghi.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_diemdanh.dart';
-import 'package:hr_payyroll/nhanvien/nhanvien_bangluong.dart';
+import 'package:hr_payyroll/admin/admin_doasboard.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_catrongtuan.dart';
 import 'package:hr_payyroll/main.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hr_payyroll/nhanvien/part_time/part_time_dangki.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_diemdanh.dart';
-import 'package:hr_payyroll/nhanvien/nhanvien_bangluong.dart';
+import 'package:hr_payyroll/admin/admin_doasboard.dart';
 import 'package:hr_payyroll/nhanvien/nhanvien_catrongtuan.dart';
 import 'package:hr_payyroll/main.dart';
 
@@ -50,7 +50,11 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: highlight ? Colors.white : Colors.indigo, size: 35),
+            Icon(
+              icon,
+              color: highlight ? Colors.white : Colors.indigo,
+              size: 35,
+            ),
             const SizedBox(height: 10),
             Text(
               title,
@@ -116,7 +120,11 @@ class HomePage extends StatelessWidget {
               accountEmail: Text(user['email'] ?? "Part-time employee"),
               currentAccountPicture: const CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Icon(Icons.person_outline, color: Colors.indigo, size: 40),
+                child: Icon(
+                  Icons.person_outline,
+                  color: Colors.indigo,
+                  size: 40,
+                ),
               ),
             ),
             _buildDrawerItem(
@@ -136,6 +144,12 @@ class HomePage extends StatelessWidget {
               "Lịch làm",
               Icons.date_range,
               NhanVienNgayMo(user: user),
+            ),
+            _buildDrawerItem(
+              context,
+              "Điểm danh",
+              Icons.fingerprint,
+              BangLuongPage(user: user),
             ),
             _buildDrawerItem(
               context,
