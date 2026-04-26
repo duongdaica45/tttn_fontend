@@ -140,7 +140,7 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
         });
 
         // reload lại dữ liệu
-        await loadLichLam();
+        await reloadPage();
       } else {
         final data = jsonDecode(response.body);
         _showSnackBar(" ${data['message']}", Colors.redAccent);
@@ -369,82 +369,89 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
           const SizedBox(height: 10),
 
           Expanded(
-            child: isLoadingList
-                ? const Center(
-                    child: CircularProgressIndicator(color: Colors.indigo),
-                  )
-                : lichLamList.isEmpty
-                ? const Center(child: Text("Chưa có lịch làm"))
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: filteredList.length,
-                    itemBuilder: (context, index) {
-                      final item = filteredList[index];
-                      return Card(
-                        elevation: 0,
-                        margin: const EdgeInsets.only(bottom: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          side: BorderSide(
-                            color: Colors.indigo.withOpacity(0.1),
-                          ),
-                        ),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.indigo[50],
-                            child: const Icon(
-                              Icons.access_time_filled,
-                              color: Colors.indigo,
-                              size: 20,
+            child: RefreshIndicator(
+              onRefresh: reloadPage,
+              color: Colors.indigo,
+
+              child: isLoadingList
+                  ? const Center(
+                      child: CircularProgressIndicator(color: Colors.indigo),
+                    )
+                  : lichLamList.isEmpty
+                  ? const Center(child: Text("Chưa có lịch làm"))
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: filteredList.length,
+                      itemBuilder: (context, index) {
+                        final item = filteredList[index];
+                        return Card(
+                          elevation: 0,
+                          margin: const EdgeInsets.only(bottom: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(
+                              color: Colors.indigo.withOpacity(0.1),
                             ),
                           ),
-                          title: Text(
-                            item['ngay'],
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(
-                            item['ten_ca'],
-                            style: TextStyle(color: Colors.indigo[300]),
-                          ),
-                          trailing: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.indigo[50],
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              "Tối đa: ${item['max_nhan_vien']}",
-                              style: const TextStyle(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.indigo[50],
+                              child: const Icon(
+                                Icons.access_time_filled,
                                 color: Colors.indigo,
-                                fontSize: 12,
+                                size: 20,
+                              ),
+                            ),
+                            title: Text(
+                              item['ngay'],
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-
-                          // 👇 CLICK thường
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    DanhSachNhanVienFullScreen(lichLam: item),
+                            subtitle: Text(
+                              item['ten_ca'],
+                              style: TextStyle(color: Colors.indigo[300]),
+                            ),
+                            trailing: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
                               ),
-                            );
-                          },
+                              decoration: BoxDecoration(
+                                color: Colors.indigo[50],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                "Tối đa: ${item['max_nhan_vien']}",
+                                style: const TextStyle(
+                                  color: Colors.indigo,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
 
-                          // 🔥 THÊM DÒNG NÀY
-                          onLongPress: () {
-                            HapticFeedback.mediumImpact(); // rung nhẹ cho xịn
-                            confirmDelete(context, item);
-                          },
-                        ),
-                      );
-                    },
-                  ),
+                            // 👇 CLICK thường
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      DanhSachNhanVienFullScreen(lichLam: item),
+                                ),
+                              );
+                            },
+
+                            // 🔥 THÊM DÒNG NÀY
+                            onLongPress: () {
+                              HapticFeedback.mediumImpact(); // rung nhẹ cho xịn
+                              confirmDelete(context, item);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+            ),
           ),
         ],
       ),
@@ -512,6 +519,15 @@ class _TaoCaScreenState extends State<TaoCaScreen> {
       int caId = item['ten_ca'] == "Ca sáng" ? 1 : 2;
       return caId == currentTab;
     }).toList();
+  }
+
+  Future<void> reloadPage() async {
+    setState(() {
+      isLoadingList = true;
+      isLoadingNgay = true;
+    });
+
+    await Future.wait([loadNgayMo(), loadLichLam()]);
   }
 }
 
